@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IQOS Curious Interface</title>
+    <title>IQOS CORPORATE GAME</title>
     <style>
         * {
             margin: 0;
@@ -11,24 +11,25 @@
             box-sizing: border-box;
         }
 
-@font-face {
-    font-family: "IQOS-Regular";
-    src: url("src/fonts/IQOS-regular.otf") format("opentype");
-    font-weight: normal;
-    font-style: normal;
-}
+        @font-face {
+            font-family: "IQOS-Regular";
+            src: url("butoane/IQOS-regular.otf") format("opentype");
+            font-weight: normal;
+            font-style: normal;
+        }
 
-@font-face {
-    font-family: "IQOS-Bold";
-    src: url("src/fonts/IQOS-Bold.otf") format("opentype");
-    font-weight: bold;
-    font-style: normal;
-}
+        @font-face {
+            font-family: "IQOS-Bold";
+            src: url("butoane/IQOS-Bold.otf") format("opentype");
+            font-weight: bold;
+            font-style: normal;
+        }
+
         html, body {
             height: 100%;
             width: 100%;
             overflow: hidden;
-            font-family: 'App-Regular', Arial, sans-serif;
+            font-family: 'IQOS-Bold', Arial, sans-serif;
         }
 
         body {
@@ -42,7 +43,7 @@
             align-items: center;
         }
 
-        /* Language Switcher */
+        /* Language switcher */
         .lang-switcher {
             position: fixed;
             top: 30px;
@@ -62,11 +63,13 @@
             width: 40px;
             height: auto;
             cursor: pointer;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease;
             filter: brightness(0.8);
+            transition:
+                transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                filter 0.3s ease;
         }
 
-        .lang-btn:hover { 
+        .lang-btn:hover {
             transform: rotate(15deg) scale(1.2);
             filter: brightness(1);
         }
@@ -76,7 +79,7 @@
             transform: scale(1.1);
         }
 
-        /* Screen Management */
+        /* Screens */
         .screen {
             display: none;
             opacity: 0;
@@ -102,15 +105,9 @@
             opacity: 0;
         }
 
-        .screen.slide-left {
-            transform: translateX(-100%);
-        }
+        .screen.slide-left  { transform: translateX(-100%); }
+        .screen.slide-right { transform: translateX(100%); }
 
-        .screen.slide-right {
-            transform: translateX(100%);
-        }
-
-        /* Content Container */
         .center-content {
             display: flex;
             flex-direction: column;
@@ -120,20 +117,19 @@
             max-width: 90%;
         }
 
-        /* Text Styles */
+        /* Texte */
         .slide-text {
-            font-family: 'IQOS-Regular', Arial, sans-serif;
+            font-family: 'IQOS-Regular';
             color: #ffffff;
             text-transform: uppercase;
             text-align: center;
             font-size: 28px;
             line-height: 1.4;
             max-width: 800px;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
         }
 
         .slide-question {
-            font-family: 'IQOS-Bold', Arial, sans-serif;
+            font-family: 'IQOS-Bold';
             color: #ffffff;
             font-size: 24px;
             text-align: center;
@@ -148,22 +144,24 @@
             padding: 0 20px;
         }
 
-        .slide-question.short {
-            top: 160px;
+        .slide-question.short  { top: 160px; }
+        .slide-question.medium { top: 160px; }
+        .slide-question.long   { top: 160px; font-size: 24px; }
+
+        /* La întrebări textul stă normal deasupra grilei */
+        .question-screen .slide-question {
+            position: static;
+            top: auto;
+            left: auto;
+            transform: none;
+            width: 100%;
+            max-width: 900px;
+            padding: 0 24px;
+            margin: 0 auto 32px;
         }
 
-        .slide-question.medium {
-            top: 160px;
-        }
-
-        .slide-question.long {
-            top: 160px;
-            font-size: 24px;
-        }
-
-        /* Final Screen Styles */
         .final-title {
-            font-family: 'App-Bold', Arial, sans-serif;
+            font-family: 'IQOS-Bold';
             color: #ffffff;
             text-transform: uppercase;
             font-size: 36px;
@@ -171,7 +169,7 @@
         }
 
         .final-subtitle {
-            font-family: 'App-Regular', Arial, sans-serif;
+            font-family: 'IQOS-Regular';
             color: #ffffff;
             font-size: 22px;
             line-height: 1.5;
@@ -180,13 +178,13 @@
         }
 
         .auto-reset-hint {
-            font-family: 'App-Regular', Arial, sans-serif;
+            font-family: 'IQOS-Regular';
             color: rgba(255, 255, 255, 0.6);
             font-size: 16px;
             margin-top: 20px;
         }
 
-        /* Image Buttons */
+        /* Imagini & butoane */
         .curious-fixed {
             width: 350px;
             max-width: 85vw;
@@ -227,7 +225,6 @@
             transform: scale(0.98);
         }
 
-        /* Button Layouts */
         .side-by-side-buttons {
             display: flex;
             gap: 25px;
@@ -236,32 +233,26 @@
             flex-wrap: wrap;
         }
 
-        /* Questions Grid */
+        /* Layout întrebări */
         .options-layout {
+            min-height: 100vh;
+            width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            width: 100%;
-            position: relative;
-            height: 100%;
+            justify-content: flex-start;
+            padding-top: 120px;
         }
 
         .options-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 25px;
-            max-width: 950px;
-            justify-items: center;
-            align-items: center;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            margin-top: 60px;
+            grid-template-columns: repeat(2, auto);
+            justify-content: space-evenly;
+            align-content: center;
+            row-gap: 15px;
+            column-gap: 15px;
         }
 
-        /* Swipe Instructions */
         .swipe-hint {
             position: absolute;
             bottom: 30px;
@@ -269,26 +260,25 @@
             transform: translateX(-50%);
             color: rgba(255, 255, 255, 0.7);
             font-size: 14px;
-            font-family: 'App-Regular', Arial, sans-serif;
+            font-family: 'IQOS-Regular', Arial, sans-serif;
             text-align: center;
             animation: fadeInOut 3s ease-in-out infinite;
         }
 
         @keyframes fadeInOut {
             0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
+            50%      { opacity: 1; }
         }
 
         .option-btn {
-            width: 300px;
-            max-width: 90vw;
+            width: min(240px, 22vw);
             height: auto;
             cursor: pointer;
             transition: transform 0.3s ease, filter 0.2s ease;
         }
 
         .option-btn:hover {
-            transform: scale(1.08);
+            transform: scale(1.05);
             filter: brightness(1.1);
         }
 
@@ -296,68 +286,162 @@
             transform: scale(0.95);
         }
 
-        /* Loading Animation */
         @keyframes pulse {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
+            50%      { opacity: 0.6; }
         }
 
         .loading {
             animation: pulse 1.5s ease-in-out infinite;
         }
 
-        /* Responsive Design */
+        /* TABLETĂ – setări generale */
         @media (max-width: 1024px) {
-            .slide-text { font-size: 24px; }
-            .slide-question { font-size: 23px; }
-            .large-btn { width: 320px; }
-            .option-btn { width: 280px; }
-            .denial-image { width: 380px; }
+            .slide-text    { font-size: 24px; }
+            .slide-question{ font-size: 22px; }
+            .denial-image  { width: 380px; }
             .curious-fixed { width: 300px; }
+            .options-layout{ padding-top: 110px; }
+            .option-btn    { width: min(220px, 26vw); }
         }
 
+        /* TABLETĂ mică / telefon mare */
         @media (max-width: 768px) {
-            .slide-text { font-size: 20px; }
-            .slide-question { font-size: 19px; }
-            .slide-question.short { top: 150px; }
-            .slide-question.long { 
-                top: 90px; 
-                font-size: 18px;
-            }
-            .final-title { font-size: 28px; }
-            .final-subtitle { font-size: 18px; }
-            .large-btn { width: 280px; }
-            .options-grid { 
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            .option-btn { width: 300px; }
-            .denial-image { width: 300px; }
+            .slide-text    { font-size: 20px; }
+            .slide-question{ font-size: 19px; }
+            .final-title   { font-size: 28px; }
+            .final-subtitle{ font-size: 18px; }
+            .options-layout{ padding-top: 100px; }
+            .options-grid  { gap: 16px; max-width: 620px; }
+            .denial-image  { width: 300px; }
             .curious-fixed { width: 260px; }
-            .lang-switcher {
-                top: 20px;
-                right: 20px;
-            }
-            .lang-btn { width: 35px; }
+            .option-btn    { width: min(190px, 34vw); }
+            .lang-switcher { top: 20px; right: 20px; }
+            .lang-btn      { width: 35px; }
         }
 
+        /* TELEFON portret – general */
         @media (max-width: 480px) {
-            .slide-text { font-size: 18px; }
-            .slide-question { font-size: 17px; }
-            .slide-question.short { top: 130px; }
-            .slide-question.long { 
-                top: 80px; 
-                font-size: 16px;
-            }
-            .final-title { font-size: 24px; }
-            .final-subtitle { font-size: 16px; }
-            .large-btn { width: 240px; }
-            .option-btn { width: 260px; }
+            .slide-text    { font-size: 18px; }
+            .slide-question{ font-size: 17px; }
+            .final-title   { font-size: 24px; }
+            .final-subtitle{ font-size: 16px; }
+            .options-layout{ padding-top: 90px; }
+            .options-grid  { gap: 14px; }
+            .denial-image  { width: 260px; }
+            .curious-fixed { width: 220px; }
+            .option-btn    { width: min(160px, 38vw); }
             .side-by-side-buttons {
                 flex-direction: column;
                 gap: 15px;
             }
         }
+
+        /* landscape telefoane/tablete mici pentru GRILĂ */
+        @media (orientation: landscape) and (max-height: 800px) {
+            .options-layout{
+                padding-top: 70px;
+            }
+            .options-grid{
+                gap: 12px;
+            }
+            .question-screen .slide-question {
+                margin-bottom: 18px;
+                font-size: 18px;
+            }
+            .option-btn {
+                width: min(22vh, 22vw, 170px);
+            }
+        }
+
+        /* TABLETE (portret + landscape) pentru întrebări */
+        @media (min-width: 481px) and (max-width: 1024px) {
+            .options-layout {
+                padding-top: 100px;
+            }
+            .question-screen .slide-question {
+                margin-bottom: 20px;
+                font-size: 22px;
+            }
+        }
+
+        /* TELEFOANE (portret) pentru întrebări */
+        @media (max-width: 480px) {
+            .options-layout {
+                padding-top: 90px;
+            }
+            .question-screen .slide-question {
+                margin-bottom: 16px;
+                font-size: 18px;
+            }
+        }
+
+        /* ===== DOAR BUTOANELE DA / NU ===== */
+
+        /* tabletă + mobil (max 1024px) */
+        @media (max-width: 1024px) {
+            #slide-2-ro .side-by-side-buttons,
+            #slide-2-ru .side-by-side-buttons {
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                gap: min(3vw, 16px);
+                flex-wrap: nowrap;
+                width: 100%;
+                max-width: 900px;
+                margin: 0 auto;
+            }
+
+            #slide-2-ro .large-btn,
+            #slide-2-ru .large-btn {
+                width: min(240px, 32vw);
+                max-width: 100%;
+                height: auto;
+            }
+        }
+
+        /* telefoane mici (max 480px) – și mai mici */
+        @media (max-width: 480px) {
+            #slide-2-ro .side-by-side-buttons,
+            #slide-2-ru .side-by-side-buttons {
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                gap: min(4vw, 12px);
+            }
+
+            #slide-2-ro .large-btn,
+            #slide-2-ru .large-btn {
+                width: min(190px, 40vw);
+                max-width: 100%;
+            }
+        }
+ 
+@media (max-width: 1024px) {
+    #slide-9-ro .large-btn,
+    #slide-9-ru .large-btn {
+        width: 300px;          
+        max-width: 85vw;
+    }
+}
+
+/* tabletă mică / telefon mare */
+@media (max-width: 768px) {
+    #slide-9-ro .large-btn,
+    #slide-9-ru .large-btn {
+        width: 260px;          
+        max-width: 85vw;
+    }
+}
+
+/* telefon portret */
+@media (max-width: 480px) {
+    #slide-9-ro .large-btn,
+    #slide-9-ru .large-btn {
+        width: 220px;          
+        max-width: 85vw;
+    }
+}
     </style>
 </head>
 <body>
@@ -411,10 +495,10 @@
             <div class="options-layout">
                 <h2 class="slide-question short">Pauza ta este...</h2>
                 <div class="options-grid">
-                    <img src="butoane/3RO.png" alt="Opțiune 1" class="option-btn">
-                    <img src="butoane/4RO.png" alt="Opțiune 2" class="option-btn">
-                    <img src="butoane/5RO.png" alt="Opțiune 3" class="option-btn">
-                    <img src="butoane/6RO.png" alt="Opțiune 4" class="option-btn">
+                    <img src="butoane/3RO.png" class="option-btn" alt="">
+                    <img src="butoane/4RO.png" class="option-btn" alt="">
+                    <img src="butoane/5RO.png" class="option-btn" alt="">
+                    <img src="butoane/6RO.png" class="option-btn" alt="">
                 </div>
             </div>
         </section>
@@ -422,10 +506,10 @@
             <div class="options-layout">
                 <h2 class="slide-question short">Твоя пауза это...</h2>
                 <div class="options-grid">
-                    <img src="butoane/5.png" alt="Опция 1" class="option-btn">
-                    <img src="butoane/6.png" alt="Опция 2" class="option-btn">
-                    <img src="butoane/7.png" alt="Опция 3" class="option-btn">
-                    <img src="butoane/8.png" alt="Опция 4" class="option-btn">
+                    <img src="butoane/5.png" class="option-btn" alt="">
+                    <img src="butoane/6.png" class="option-btn" alt="">
+                    <img src="butoane/7.png" class="option-btn" alt="">
+                    <img src="butoane/8.png" class="option-btn" alt="">
                 </div>
             </div>
         </section>
@@ -435,10 +519,10 @@
             <div class="options-layout">
                 <h2 class="slide-question medium">Finalizați lista pentru a fi perfectă: IQOS, seară, apus de soare...</h2>
                 <div class="options-grid">
-                    <img src="butoane/7ro.png" alt="Opțiune 1" class="option-btn">
-                    <img src="butoane/8ro.png" alt="Opțiune 2" class="option-btn">
-                    <img src="butoane/9ro.png" alt="Opțiune 3" class="option-btn">
-                    <img src="butoane/10ro.png" alt="Opțiune 4" class="option-btn">
+                    <img src="butoane/7ro.png" class="option-btn" alt="">
+                    <img src="butoane/8ro.png" class="option-btn" alt="">
+                    <img src="butoane/9ro.png" class="option-btn" alt="">
+                    <img src="butoane/10ro.png" class="option-btn" alt="">
                 </div>
             </div>
         </section>
@@ -446,10 +530,10 @@
             <div class="options-layout">
                 <h2 class="slide-question medium">Заверши, чтобы было идеально: IQOS, вечер, закат ...</h2>
                 <div class="options-grid">
-                    <img src="butoane/9.png" alt="Опция 1" class="option-btn">
-                    <img src="butoane/10.png" alt="Опция 2" class="option-btn">
-                    <img src="butoane/11.png" alt="Опция 3" class="option-btn">
-                    <img src="butoane/12.png" alt="Опция 4" class="option-btn">
+                    <img src="butoane/9.png" class="option-btn" alt="">
+                    <img src="butoane/10.png" class="option-btn" alt="">
+                    <img src="butoane/11.png" class="option-btn" alt="">
+                    <img src="butoane/12.png" class="option-btn" alt="">
                 </div>
             </div>
         </section>
@@ -459,10 +543,10 @@
             <div class="options-layout">
                 <h2 class="slide-question medium">Combinația mea preferată este IQOS și ...</h2>
                 <div class="options-grid">
-                    <img src="butoane/11ro.png" alt="Opțiune 1" class="option-btn">
-                    <img src="butoane/12ro.png" alt="Opțiune 2" class="option-btn">
-                    <img src="butoane/13ro.png" alt="Opțiune 3" class="option-btn">
-                    <img src="butoane/14ro.png" alt="Opțiune 4" class="option-btn">
+                    <img src="butoane/11ro.png" class="option-btn" alt="">
+                    <img src="butoane/12ro.png" class="option-btn" alt="">
+                    <img src="butoane/13ro.png" class="option-btn" alt="">
+                    <img src="butoane/14ro.png" class="option-btn" alt="">
                 </div>
             </div>
         </section>
@@ -470,10 +554,10 @@
             <div class="options-layout">
                 <h2 class="slide-question medium">Моё любимое сочетание IQOS и …</h2>
                 <div class="options-grid">
-                    <img src="butoane/13.png" alt="Опция 1" class="option-btn">
-                    <img src="butoane/14.png" alt="Опция 2" class="option-btn">
-                    <img src="butoane/15.png" alt="Опция 3" class="option-btn">
-                    <img src="butoane/16.png" alt="Опция 4" class="option-btn">
+                    <img src="butoane/13.png" class="option-btn" alt="">
+                    <img src="butoane/14.png" class="option-btn" alt="">
+                    <img src="butoane/15.png" class="option-btn" alt="">
+                    <img src="butoane/16.png" class="option-btn" alt="">
                 </div>
             </div>
         </section>
@@ -483,10 +567,10 @@
             <div class="options-layout">
                 <h2 class="slide-question medium">Must Have-ul tău, atunci când călătorești:</h2>
                 <div class="options-grid">
-                    <img src="butoane/15ro.png" alt="Opțiune 1" class="option-btn">
-                    <img src="butoane/16ro.png" alt="Opțiune 2" class="option-btn">
-                    <img src="butoane/17ro.png" alt="Opțiune 3" class="option-btn">
-                    <img src="butoane/18ro.png" alt="Opțiune 4" class="option-btn">
+                    <img src="butoane/15ro.png" class="option-btn" alt="">
+                    <img src="butoane/16ro.png" class="option-btn" alt="">
+                    <img src="butoane/17ro.png" class="option-btn" alt="">
+                    <img src="butoane/18ro.png" class="option-btn" alt="">
                 </div>
             </div>
         </section>
@@ -494,10 +578,10 @@
             <div class="options-layout">
                 <h2 class="slide-question medium">Какой твой маст хэв в путешествии:</h2>
                 <div class="options-grid">
-                    <img src="butoane/17.png" alt="Опция 1" class="option-btn">
-                    <img src="butoane/18.png" alt="Опция 2" class="option-btn">
-                    <img src="butoane/19.png" alt="Опция 3" class="option-btn">
-                    <img src="butoane/20.png" alt="Опция 4" class="option-btn">
+                    <img src="butoane/17.png" class="option-btn" alt="">
+                    <img src="butoane/18.png" class="option-btn" alt="">
+                    <img src="butoane/19.png" class="option-btn" alt="">
+                    <img src="butoane/20.png" class="option-btn" alt="">
                 </div>
             </div>
         </section>
@@ -507,10 +591,10 @@
             <div class="options-layout">
                 <h2 class="slide-question short">Setul tău obligatoriu pentru seară:</h2>
                 <div class="options-grid">
-                    <img src="butoane/19ro.png" alt="Opțiune 1" class="option-btn">
-                    <img src="butoane/20ro.png" alt="Opțiune 2" class="option-btn">
-                    <img src="butoane/21ro.png" alt="Opțiune 3" class="option-btn">
-                    <img src="butoane/22ro.png" alt="Opțiune 4" class="option-btn">
+                    <img src="butoane/19ro.png" class="option-btn" alt="">
+                    <img src="butoane/20ro.png" class="option-btn" alt="">
+                    <img src="butoane/21ro.png" class="option-btn" alt="">
+                    <img src="butoane/22ro.png" class="option-btn" alt="">
                 </div>
             </div>
         </section>
@@ -518,10 +602,10 @@
             <div class="options-layout">
                 <h2 class="slide-question short">Твой обязательный набор на вечер:</h2>
                 <div class="options-grid">
-                    <img src="butoane/21.png" alt="Опция 1" class="option-btn">
-                    <img src="butoane/22.png" alt="Опция 2" class="option-btn">
-                    <img src="butoane/23.png" alt="Опция 3" class="option-btn">
-                    <img src="butoane/24.png" alt="Опция 4" class="option-btn">
+                    <img src="butoane/21.png" class="option-btn" alt="">
+                    <img src="butoane/22.png" class="option-btn" alt="">
+                    <img src="butoane/23.png" class="option-btn" alt="">
+                    <img src="butoane/24.png" class="option-btn" alt="">
                 </div>
             </div>
         </section>
@@ -531,10 +615,10 @@
             <div class="options-layout">
                 <h2 class="slide-question short">Culoarea stării tale de spirit este:</h2>
                 <div class="options-grid">
-                    <img src="butoane/23ro.png" alt="Opțiune 1" class="option-btn">
-                    <img src="butoane/24ro.png" alt="Opțiune 2" class="option-btn">
-                    <img src="butoane/25ro.png" alt="Opțiune 3" class="option-btn">
-                    <img src="butoane/26ro.png" alt="Opțiune 4" class="option-btn">
+                    <img src="butoane/23ro.png" class="option-btn" alt="">
+                    <img src="butoane/24ro.png" class="option-btn" alt="">
+                    <img src="butoane/25ro.png" class="option-btn" alt="">
+                    <img src="butoane/26ro.png" class="option-btn" alt="">
                 </div>
             </div>
         </section>
@@ -542,10 +626,10 @@
             <div class="options-layout">
                 <h2 class="slide-question short">Цвет твоего настроения:</h2>
                 <div class="options-grid">
-                    <img src="butoane/25.png" alt="Опция 1" class="option-btn">
-                    <img src="butoane/26.png" alt="Опция 2" class="option-btn">
-                    <img src="butoane/27.png" alt="Опция 3" class="option-btn">
-                    <img src="butoane/28.png" alt="Опция 4" class="option-btn">
+                    <img src="butoane/25.png" class="option-btn" alt="">
+                    <img src="butoane/26.png" class="option-btn" alt="">
+                    <img src="butoane/27.png" class="option-btn" alt="">
+                    <img src="butoane/28.png" class="option-btn" alt="">
                 </div>
             </div>
         </section>
@@ -555,10 +639,10 @@
             <div class="options-layout">
                 <h2 class="slide-question long">Momentul în care IQOS-ul sigur este cu mine:</h2>
                 <div class="options-grid">
-                    <img src="butoane/27ro.png" alt="Opțiune 1" class="option-btn">
-                    <img src="butoane/28ro.png" alt="Opțiune 2" class="option-btn">
-                    <img src="butoane/29ro.png" alt="Opțiune 3" class="option-btn">
-                    <img src="butoane/30ro.png" alt="Opțiune 4" class="option-btn">
+                    <img src="butoane/27ro.png" class="option-btn" alt="">
+                    <img src="butoane/28ro.png" class="option-btn" alt="">
+                    <img src="butoane/29ro.png" class="option-btn" alt="">
+                    <img src="butoane/30ro.png" class="option-btn" alt="">
                 </div>
             </div>
         </section>
@@ -566,10 +650,10 @@
             <div class="options-layout">
                 <h2 class="slide-question long">Момент, когда IQOS точно со мной:</h2>
                 <div class="options-grid">
-                    <img src="butoane/29.png" alt="Опция 1" class="option-btn">
-                    <img src="butoane/30.png" alt="Опция 2" class="option-btn">
-                    <img src="butoane/31.png" alt="Опция 3" class="option-btn">
-                    <img src="butoane/32.png" alt="Опция 4" class="option-btn">
+                    <img src="butoane/29.png" class="option-btn" alt="">
+                    <img src="butoane/30.png" class="option-btn" alt="">
+                    <img src="butoane/31.png" class="option-btn" alt="">
+                    <img src="butoane/32.png" class="option-btn" alt="">
                 </div>
             </div>
         </section>
@@ -579,10 +663,10 @@
             <div class="options-layout">
                 <h2 class="slide-question short">Stilul tău este:</h2>
                 <div class="options-grid">
-                    <img src="butoane/31ro.png" alt="Opțiune 1" class="option-btn">
-                    <img src="butoane/32ro.png" alt="Opțiune 2" class="option-btn">
-                    <img src="butoane/33ro.png" alt="Opțiune 3" class="option-btn">
-                    <img src="butoane/34ro.png" alt="Opțiune 4" class="option-btn">
+                    <img src="butoane/31ro.png" class="option-btn" alt="">
+                    <img src="butoane/32ro.png" class="option-btn" alt="">
+                    <img src="butoane/33ro.png" class="option-btn" alt="">
+                    <img src="butoane/34ro.png" class="option-btn" alt="">
                 </div>
             </div>
         </section>
@@ -590,10 +674,10 @@
             <div class="options-layout">
                 <h2 class="slide-question short">Твой стиль – это:</h2>
                 <div class="options-grid">
-                    <img src="butoane/33.png" alt="Опция 1" class="option-btn">
-                    <img src="butoane/34.png" alt="Опция 2" class="option-btn">
-                    <img src="butoane/35.png" alt="Опция 3" class="option-btn">
-                    <img src="butoane/36.png" alt="Опция 4" class="option-btn">
+                    <img src="butoane/33.png" class="option-btn" alt="">
+                    <img src="butoane/34.png" class="option-btn" alt="">
+                    <img src="butoane/35.png" class="option-btn" alt="">
+                    <img src="butoane/36.png" class="option-btn" alt="">
                 </div>
             </div>
         </section>
@@ -620,10 +704,9 @@
     </section>
 
     <script>
-        // State Management
         const state = {
             currentLang: 'ru',
-            questionOrder: [1, 2, 3, 4, 5, 6, 7, 8],
+            questionOrder: [1,2,3,4,5,6,7,8],
             currentQuestionIndex: 0,
             inactivityTimer: null,
             autoResetTimer: null,
@@ -632,7 +715,6 @@
             touchEndX: 0
         };
 
-        // DOM Elements
         const elements = {
             langSwitcher: document.getElementById('langSwitcher'),
             btnRo: document.getElementById('btnRo'),
@@ -643,72 +725,62 @@
             swipeHint: document.getElementById('swipeHint')
         };
 
-        // Swipe hint translations
         const swipeHintText = {
             ro: '← Glisați pentru a naviga →',
             ru: '← Листайте для навигации →'
         };
 
-        // Utility Functions
-        function shuffleArray(array) {
-            const shuffled = [...array];
-            for (let i = shuffled.length - 1; i > 0; i--) {
+        function shuffleArray(arr) {
+            const a = [...arr];
+            for (let i = a.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
-                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                [a[i], a[j]] = [a[j], a[i]];
             }
-            return shuffled;
+            return a;
         }
 
-        function showSlide(slideId) {
-            const currentSlide = document.querySelector('.screen.active');
-            const targetSlide = document.getElementById(slideId);
-            
-            if (!targetSlide) {
-                console.error(`Slide ${slideId} not found`);
+        function showSlide(id) {
+            const current = document.querySelector('.screen.active');
+            const target = document.getElementById(id);
+            if (!target) return;
+            if (current) {
+                current.classList.add('fade-out');
+                setTimeout(() => {
+                    current.classList.remove('active', 'fade-out');
+                    target.classList.add('active');
+                }, 300);
+            } else {
+                target.classList.add('active');
+            }
+        }
+
+        // NU resetăm pe slide-1
+        function resetInactivityTimer() {
+            const active = document.querySelector('.screen.active');
+
+            if (active && active.id === 'slide-1') {
+                clearTimeout(state.inactivityTimer);
                 return;
             }
 
-            if (currentSlide) {
-                currentSlide.classList.add('fade-out');
-                setTimeout(() => {
-                    currentSlide.classList.remove('active', 'fade-out');
-                    targetSlide.classList.add('active');
-                }, 300);
-            } else {
-                targetSlide.classList.add('active');
-            }
-        }
-
-        function resetInactivityTimer() {
             clearTimeout(state.inactivityTimer);
-            state.inactivityTimer = setTimeout(() => {
-                location.reload();
-            }, 30000); // 30 seconds
+            state.inactivityTimer = setTimeout(() => location.reload(), 30000);
         }
 
         function startAutoReset(seconds = 8) {
-            const countdownElement = document.getElementById(`countdown-${state.currentLang}`);
-            let timeLeft = seconds;
-            
-            // Clear any existing timers
+            const el = document.getElementById(`countdown-${state.currentLang}`);
+            let t = seconds;
+
             clearTimeout(state.autoResetTimer);
             clearInterval(state.countdownInterval);
-            
-            // Update countdown display
+
             state.countdownInterval = setInterval(() => {
-                timeLeft--;
-                if (countdownElement) {
-                    countdownElement.textContent = timeLeft;
-                }
-                if (timeLeft <= 0) {
-                    clearInterval(state.countdownInterval);
-                }
+                t--;
+                if (el) el.textContent = t;
+                if (t <= 0) clearInterval(state.countdownInterval);
             }, 1000);
-            
-            // Set reload timer
-            state.autoResetTimer = setTimeout(() => {
-                location.reload();
-            }, seconds * 1000);
+
+            state.autoResetTimer = setTimeout(() => location.reload(), seconds * 1000);
         }
 
         function cancelAutoReset() {
@@ -719,39 +791,33 @@
         function updateLanguageButtons() {
             elements.btnRo.classList.toggle('active', state.currentLang === 'ro');
             elements.btnRu.classList.toggle('active', state.currentLang === 'ru');
-            
-            // Update swipe hint text
             if (elements.swipeHint) {
                 elements.swipeHint.textContent = swipeHintText[state.currentLang];
             }
         }
 
         function startQuiz() {
-            state.questionOrder = shuffleArray([1, 2, 3, 4, 5, 6, 7, 8]);
+            state.questionOrder = shuffleArray([1,2,3,4,5,6,7,8]);
             state.currentQuestionIndex = 0;
             showSlide(`q${state.questionOrder[0]}-${state.currentLang}`);
         }
 
         function goToNextQuestion() {
             state.currentQuestionIndex++;
-            
             if (state.currentQuestionIndex < state.questionOrder.length) {
-                const nextQuestionNumber = state.questionOrder[state.currentQuestionIndex];
-                showSlide(`q${nextQuestionNumber}-${state.currentLang}`);
+                const n = state.questionOrder[state.currentQuestionIndex];
+                showSlide(`q${n}-${state.currentLang}`);
             } else {
                 showSlide(`slide-9-${state.currentLang}`);
-                startAutoReset(8);
+                startAutoReset(8); // 8 secunde pe final
             }
         }
 
         function handleDenial() {
             showSlide('slide-3');
-            setTimeout(() => {
-                location.reload();
-            }, 20000);
+            setTimeout(() => location.reload(), 20000);
         }
 
-        // Swipe functionality
         function handleTouchStart(e) {
             state.touchStartX = e.changedTouches[0].screenX;
         }
@@ -762,19 +828,16 @@
         }
 
         function handleSwipe() {
-            const currentSlide = document.querySelector('.screen.active');
-            if (!currentSlide || currentSlide.id !== 'slide-1') return;
+            const current = document.querySelector('.screen.active');
+            if (!current || current.id !== 'slide-1') return;
 
-            const swipeThreshold = 50;
             const diff = state.touchStartX - state.touchEndX;
-
-            if (Math.abs(diff) > swipeThreshold) {
+            if (Math.abs(diff) > 50) {
                 elements.langSwitcher.classList.add('hidden');
                 showSlide(state.currentLang === 'ro' ? 'slide-2-ro' : 'slide-2-ru');
             }
         }
 
-        // Event Listeners
         elements.btnRo.addEventListener('click', () => {
             state.currentLang = 'ro';
             updateLanguageButtons();
@@ -805,24 +868,18 @@
         elements.replayRo.addEventListener('click', () => location.reload());
         elements.replayRu.addEventListener('click', () => location.reload());
 
-        // Touch/Swipe events for first slide
         document.addEventListener('touchstart', handleTouchStart, { passive: true });
         document.addEventListener('touchend', handleTouchEnd, { passive: true });
 
-        // Inactivity Timer Setup
-        ['click', 'mousemove', 'keydown', 'touchstart'].forEach(event => {
+        ['click','mousemove','keydown','touchstart'].forEach(event => {
             document.addEventListener(event, resetInactivityTimer);
         });
 
-        // Cancel auto-reset on user interaction in final screen
         document.addEventListener('click', () => {
             const finalScreen = document.querySelector('#slide-9-ro.active, #slide-9-ru.active');
-            if (finalScreen) {
-                cancelAutoReset();
-            }
+            if (finalScreen) cancelAutoReset();
         });
 
-        // Initialize
         updateLanguageButtons();
         resetInactivityTimer();
     </script>
