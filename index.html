@@ -2,7 +2,7 @@
 <html lang="ro">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
     <title>IQOS CORPORATE GAME</title>
     <style>
         * {
@@ -25,25 +25,41 @@
             font-style: normal;
         }
 
-        html, body {
+        html {
+            margin: 0;
+            padding: 0;
             height: 100%;
             width: 100%;
             overflow: hidden;
-            font-family: 'IQOS-Bold', Arial, sans-serif;
         }
 
         body {
-            background-image: url('butoane/fundal.png');
-            background-size: cover;
-            background-position: center;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            font-family: 'IQOS-Bold';
+            background-image: url("butoane/fundal.png");
             background-repeat: no-repeat;
-            background-color: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background-position: center center;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        @supports (-webkit-touch-callout: none) {
+            body {
+                min-height: -webkit-fill-available;
+            }
         }
 
-        /* Language switcher */
         .lang-switcher {
             position: fixed;
             top: 30px;
@@ -64,9 +80,7 @@
             height: auto;
             cursor: pointer;
             filter: brightness(0.8);
-            transition:
-                transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-                filter 0.3s ease;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease;
         }
 
         .lang-btn:hover {
@@ -79,12 +93,12 @@
             transform: scale(1.1);
         }
 
-        /* Screens */
         .screen {
             display: none;
             opacity: 0;
             width: 100vw;
             height: 100vh;
+            height: -webkit-fill-available;
             position: absolute;
             top: 0;
             left: 0;
@@ -105,8 +119,13 @@
             opacity: 0;
         }
 
-        .screen.slide-left  { transform: translateX(-100%); }
-        .screen.slide-right { transform: translateX(100%); }
+        .screen.slide-left {
+            transform: translateX(-100%);
+        }
+
+        .screen.slide-right {
+            transform: translateX(100%);
+        }
 
         .center-content {
             display: flex;
@@ -117,51 +136,51 @@
             max-width: 90%;
         }
 
-        /* Texte */
         .slide-text {
-            font-family: 'IQOS-Regular';
+            font-family: "IQOS-Bold";
             color: #ffffff;
             text-transform: uppercase;
             text-align: center;
-            font-size: 28px;
+            font-size: 24px;
             line-height: 1.4;
             max-width: 800px;
         }
 
         .slide-question {
-            font-family: 'IQOS-Bold';
+            font-family: "IQOS-Bold";
             color: #ffffff;
             font-size: 24px;
             text-align: center;
             text-transform: uppercase;
             line-height: 1.4;
             max-width: 90%;
-            position: absolute;
-            top: 160px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            padding: 0 20px;
-        }
-
-        .slide-question.short  { top: 160px; }
-        .slide-question.medium { top: 160px; }
-        .slide-question.long   { top: 160px; font-size: 24px; }
-
-        /* La întrebări textul stă normal deasupra grilei */
-        .question-screen .slide-question {
-            position: static;
-            top: auto;
-            left: auto;
-            transform: none;
             width: 100%;
             max-width: 900px;
             padding: 0 24px;
             margin: 0 auto 32px;
         }
 
+        .slide-question.short {
+            font-size: 24px;
+        }
+
+        .slide-question.medium {
+            font-size: 24px;
+        }
+
+        .slide-question.long {
+            font-size: 24px;
+        }
+
+        .question-screen .slide-question {
+            position: static;
+            top: auto;
+            left: auto;
+            transform: none;
+        }
+
         .final-title {
-            font-family: 'IQOS-Bold';
+            font-family: "IQOS-Bold";
             color: #ffffff;
             text-transform: uppercase;
             font-size: 36px;
@@ -169,7 +188,7 @@
         }
 
         .final-subtitle {
-            font-family: 'IQOS-Regular';
+            font-family: "IQOS-Bold";
             color: #ffffff;
             font-size: 22px;
             line-height: 1.5;
@@ -177,14 +196,6 @@
             margin-bottom: 35px;
         }
 
-        .auto-reset-hint {
-            font-family: 'IQOS-Regular';
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 16px;
-            margin-top: 20px;
-        }
-
-        /* Imagini & butoane */
         .curious-fixed {
             width: 350px;
             max-width: 85vw;
@@ -198,7 +209,7 @@
         }
 
         .denial-image {
-            width: 450px;
+            width: 650px;
             max-width: 85vw;
             height: auto;
             transition: transform 0.3s ease;
@@ -233,15 +244,15 @@
             flex-wrap: wrap;
         }
 
-        /* Layout întrebări */
         .options-layout {
             min-height: 100vh;
+            min-height: -webkit-fill-available;
             width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
-            padding-top: 120px;
+            justify-content: center;
+            padding: 20px 0;
         }
 
         .options-grid {
@@ -260,14 +271,30 @@
             transform: translateX(-50%);
             color: rgba(255, 255, 255, 0.7);
             font-size: 14px;
-            font-family: 'IQOS-Regular', Arial, sans-serif;
+            font-family: "IQOS-Regular", Arial, sans-serif;
             text-align: center;
             animation: fadeInOut 3s ease-in-out infinite;
         }
 
+        .auto-reset-hint {
+            font-family: "IQOS-Bold";
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 16px;
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            text-align: center;
+        }
+
         @keyframes fadeInOut {
-            0%, 100% { opacity: 0.5; }
-            50%      { opacity: 1; }
+            0%, 100% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 1;
+            }
         }
 
         .option-btn {
@@ -287,65 +314,122 @@
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50%      { opacity: 0.6; }
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.6;
+            }
         }
 
         .loading {
             animation: pulse 1.5s ease-in-out infinite;
         }
 
-        /* TABLETĂ – setări generale */
         @media (max-width: 1024px) {
-            .slide-text    { font-size: 24px; }
-            .slide-question{ font-size: 22px; }
-            .denial-image  { width: 380px; }
-            .curious-fixed { width: 300px; }
-            .options-layout{ padding-top: 110px; }
-            .option-btn    { width: min(220px, 26vw); }
+            .slide-text {
+                font-size: 24px;
+            }
+            .slide-question {
+                font-size: 22px;
+                margin-bottom: 28px;
+            }
+            .denial-image {
+                width: 580px;
+            }
+            .curious-fixed {
+                width: 300px;
+            }
+            .option-btn {
+                width: min(220px, 26vw);
+            }
         }
 
-        /* TABLETĂ mică / telefon mare */
         @media (max-width: 768px) {
-            .slide-text    { font-size: 20px; }
-            .slide-question{ font-size: 19px; }
-            .final-title   { font-size: 28px; }
-            .final-subtitle{ font-size: 18px; }
-            .options-layout{ padding-top: 100px; }
-            .options-grid  { gap: 16px; max-width: 620px; }
-            .denial-image  { width: 300px; }
-            .curious-fixed { width: 260px; }
-            .option-btn    { width: min(190px, 34vw); }
-            .lang-switcher { top: 20px; right: 20px; }
-            .lang-btn      { width: 35px; }
+            .slide-text {
+                font-size: 20px;
+            }
+            .slide-question {
+                font-size: 19px;
+                margin-bottom: 24px;
+            }
+            .final-title {
+                font-size: 28px;
+            }
+            .final-subtitle {
+                font-size: 18px;
+            }
+            .options-grid {
+                gap: 16px;
+                max-width: 620px;
+            }
+            .denial-image {
+                width: 500px;
+            }
+            .curious-fixed {
+                width: 260px;
+            }
+            .option-btn {
+                width: min(190px, 34vw);
+            }
+            .lang-switcher {
+                top: 20px;
+                right: 20px;
+            }
+            .lang-btn {
+                width: 35px;
+            }
+            .auto-reset-hint {
+                font-size: 14px;
+                bottom: 20px;
+            }
+            .swipe-hint {
+                font-size: 12px;
+                bottom: 20px;
+            }
         }
 
-        /* TELEFON portret – general */
         @media (max-width: 480px) {
-            .slide-text    { font-size: 18px; }
-            .slide-question{ font-size: 17px; }
-            .final-title   { font-size: 24px; }
-            .final-subtitle{ font-size: 16px; }
-            .options-layout{ padding-top: 90px; }
-            .options-grid  { gap: 14px; }
-            .denial-image  { width: 260px; }
-            .curious-fixed { width: 220px; }
-            .option-btn    { width: min(160px, 38vw); }
+            .slide-text {
+                font-size: 18px;
+            }
+            .slide-question {
+                font-size: 17px;
+                margin-bottom: 20px;
+            }
+            .final-title {
+                font-size: 24px;
+            }
+            .final-subtitle {
+                font-size: 16px;
+            }
+            .options-grid {
+                gap: 14px;
+            }
+            .denial-image {
+                width: 460px;
+            }
+            .curious-fixed {
+                width: 220px;
+            }
+            .option-btn {
+                width: min(160px, 38vw);
+            }
             .side-by-side-buttons {
                 flex-direction: column;
                 gap: 15px;
             }
+            .auto-reset-hint {
+                font-size: 12px;
+                bottom: 15px;
+            }
         }
 
-        /* landscape telefoane/tablete mici pentru GRILĂ */
         @media (orientation: landscape) and (max-height: 800px) {
-            .options-layout{
-                padding-top: 70px;
-            }
-            .options-grid{
+            .options-grid {
                 gap: 12px;
             }
-            .question-screen .slide-question {
+            .slide-question {
                 margin-bottom: 18px;
                 font-size: 18px;
             }
@@ -354,31 +438,13 @@
             }
         }
 
-        /* TABLETE (portret + landscape) pentru întrebări */
         @media (min-width: 481px) and (max-width: 1024px) {
-            .options-layout {
-                padding-top: 100px;
-            }
-            .question-screen .slide-question {
+            .slide-question {
                 margin-bottom: 20px;
                 font-size: 22px;
             }
         }
 
-        /* TELEFOANE (portret) pentru întrebări */
-        @media (max-width: 480px) {
-            .options-layout {
-                padding-top: 90px;
-            }
-            .question-screen .slide-question {
-                margin-bottom: 16px;
-                font-size: 18px;
-            }
-        }
-
-        /* ===== DOAR BUTOANELE DA / NU ===== */
-
-        /* tabletă + mobil (max 1024px) */
         @media (max-width: 1024px) {
             #slide-2-ro .side-by-side-buttons,
             #slide-2-ru .side-by-side-buttons {
@@ -391,7 +457,6 @@
                 max-width: 900px;
                 margin: 0 auto;
             }
-
             #slide-2-ro .large-btn,
             #slide-2-ru .large-btn {
                 width: min(240px, 32vw);
@@ -400,7 +465,6 @@
             }
         }
 
-        /* telefoane mici (max 480px) – și mai mici */
         @media (max-width: 480px) {
             #slide-2-ro .side-by-side-buttons,
             #slide-2-ru .side-by-side-buttons {
@@ -409,57 +473,51 @@
                 align-items: center;
                 gap: min(4vw, 12px);
             }
-
             #slide-2-ro .large-btn,
             #slide-2-ru .large-btn {
                 width: min(190px, 40vw);
                 max-width: 100%;
             }
         }
- 
-@media (max-width: 1024px) {
-    #slide-9-ro .large-btn,
-    #slide-9-ru .large-btn {
-        width: 300px;          
-        max-width: 85vw;
-    }
-}
 
-/* tabletă mică / telefon mare */
-@media (max-width: 768px) {
-    #slide-9-ro .large-btn,
-    #slide-9-ru .large-btn {
-        width: 260px;          
-        max-width: 85vw;
-    }
-}
+        @media (max-width: 1024px) {
+            #slide-9-ro .large-btn,
+            #slide-9-ru .large-btn {
+                width: 300px;
+                max-width: 85vw;
+            }
+        }
 
-/* telefon portret */
-@media (max-width: 480px) {
-    #slide-9-ro .large-btn,
-    #slide-9-ru .large-btn {
-        width: 220px;          
-        max-width: 85vw;
-    }
-}
+        @media (max-width: 768px) {
+            #slide-9-ro .large-btn,
+            #slide-9-ru .large-btn {
+                width: 260px;
+                max-width: 85vw;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #slide-9-ro .large-btn,
+            #slide-9-ru .large-btn {
+                width: 220px;
+                max-width: 85vw;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Language Switcher -->
     <div class="lang-switcher" id="langSwitcher">
         <img src="butoane/ro.png" alt="RO" class="lang-btn" id="btnRo">
         <img src="butoane/ru.png" alt="RU" class="lang-btn" id="btnRu">
     </div>
 
-    <!-- Slide 1: Start -->
     <section id="slide-1" class="screen active">
         <div class="center-content">
             <img src="butoane/1.png" alt="Curious?" class="curious-fixed" id="curiousTrigger">
-            <div class="swipe-hint" id="swipeHint">← Глиссируйте для навигации →</div>
+            <div class="swipe-hint" id="swipeHint">← Листайте для навигации →</div>
         </div>
     </section>
 
-    <!-- Slide 2 RO: Age Verification -->
     <section id="slide-2-ro" class="screen">
         <div class="center-content">
             <p class="slide-text">Sunteți fumător major (adult)?</p>
@@ -470,7 +528,6 @@
         </div>
     </section>
 
-    <!-- Slide 2 RU: Age Verification -->
     <section id="slide-2-ru" class="screen">
         <div class="center-content">
             <p class="slide-text">Вы являетесь совершеннолетним курильщиком?</p>
@@ -481,16 +538,13 @@
         </div>
     </section>
 
-    <!-- Slide 3: Access Denied -->
     <section id="slide-3" class="screen">
         <div class="center-content">
-            <img src="butoane/4.png" alt="Access Denied" class="denial-image">
+            <img src="butoane/4.png" alt="Access Denied" class="denial-image" id="denialImage">
         </div>
     </section>
 
-    <!-- Questions Container -->
     <div id="questionsContainer">
-        <!-- Question 1 -->
         <section id="q1-ro" class="screen question-screen">
             <div class="options-layout">
                 <h2 class="slide-question short">Pauza ta este...</h2>
@@ -514,7 +568,6 @@
             </div>
         </section>
 
-        <!-- Question 2 -->
         <section id="q2-ro" class="screen question-screen">
             <div class="options-layout">
                 <h2 class="slide-question medium">Finalizați lista pentru a fi perfectă: IQOS, seară, apus de soare...</h2>
@@ -538,7 +591,6 @@
             </div>
         </section>
 
-        <!-- Question 3 -->
         <section id="q3-ro" class="screen question-screen">
             <div class="options-layout">
                 <h2 class="slide-question medium">Combinația mea preferată este IQOS și ...</h2>
@@ -562,7 +614,6 @@
             </div>
         </section>
 
-        <!-- Question 4 -->
         <section id="q4-ro" class="screen question-screen">
             <div class="options-layout">
                 <h2 class="slide-question medium">Must Have-ul tău, atunci când călătorești:</h2>
@@ -586,7 +637,6 @@
             </div>
         </section>
 
-        <!-- Question 5 -->
         <section id="q5-ro" class="screen question-screen">
             <div class="options-layout">
                 <h2 class="slide-question short">Setul tău obligatoriu pentru seară:</h2>
@@ -610,7 +660,6 @@
             </div>
         </section>
 
-        <!-- Question 6 -->
         <section id="q6-ro" class="screen question-screen">
             <div class="options-layout">
                 <h2 class="slide-question short">Culoarea stării tale de spirit este:</h2>
@@ -634,7 +683,6 @@
             </div>
         </section>
 
-        <!-- Question 7 -->
         <section id="q7-ro" class="screen question-screen">
             <div class="options-layout">
                 <h2 class="slide-question long">Momentul în care IQOS-ul sigur este cu mine:</h2>
@@ -658,7 +706,6 @@
             </div>
         </section>
 
-        <!-- Question 8 -->
         <section id="q8-ro" class="screen question-screen">
             <div class="options-layout">
                 <h2 class="slide-question short">Stilul tău este:</h2>
@@ -683,7 +730,6 @@
         </section>
     </div>
 
-    <!-- Slide 9 RO: Final -->
     <section id="slide-9-ro" class="screen">
         <div class="center-content">
             <h2 class="final-title">Ești grozav/ă!</h2>
@@ -693,7 +739,6 @@
         </div>
     </section>
 
-    <!-- Slide 9 RU: Final -->
     <section id="slide-9-ru" class="screen">
         <div class="center-content">
             <h2 class="final-title">Ты просто вайб!</h2>
@@ -705,8 +750,8 @@
 
     <script>
         const state = {
-            currentLang: 'ru',
-            questionOrder: [1,2,3,4,5,6,7,8],
+            currentLang: "ru",
+            questionOrder: [1, 2, 3, 4, 5, 6, 7, 8],
             currentQuestionIndex: 0,
             inactivityTimer: null,
             autoResetTimer: null,
@@ -716,18 +761,19 @@
         };
 
         const elements = {
-            langSwitcher: document.getElementById('langSwitcher'),
-            btnRo: document.getElementById('btnRo'),
-            btnRu: document.getElementById('btnRu'),
-            curiousTrigger: document.getElementById('curiousTrigger'),
-            replayRo: document.getElementById('replayRo'),
-            replayRu: document.getElementById('replayRu'),
-            swipeHint: document.getElementById('swipeHint')
+            langSwitcher: document.getElementById("langSwitcher"),
+            btnRo: document.getElementById("btnRo"),
+            btnRu: document.getElementById("btnRu"),
+            curiousTrigger: document.getElementById("curiousTrigger"),
+            replayRo: document.getElementById("replayRo"),
+            replayRu: document.getElementById("replayRu"),
+            swipeHint: document.getElementById("swipeHint"),
+            denialImage: document.getElementById("denialImage")
         };
 
         const swipeHintText = {
-            ro: '← Glisați pentru a naviga →',
-            ru: '← Листайте для навигации →'
+            ro: "← Glisați pentru a naviga →",
+            ru: "← Листайте для навигации →"
         };
 
         function shuffleArray(arr) {
@@ -740,29 +786,31 @@
         }
 
         function showSlide(id) {
-            const current = document.querySelector('.screen.active');
+            const current = document.querySelector(".screen.active");
             const target = document.getElementById(id);
             if (!target) return;
             if (current) {
-                current.classList.add('fade-out');
+                current.classList.add("fade-out");
                 setTimeout(() => {
-                    current.classList.remove('active', 'fade-out');
-                    target.classList.add('active');
+                    current.classList.remove("active", "fade-out");
+                    target.classList.add("active");
                 }, 300);
             } else {
-                target.classList.add('active');
+                target.classList.add("active");
             }
         }
 
-        // NU resetăm pe slide-1
         function resetInactivityTimer() {
-            const active = document.querySelector('.screen.active');
-
-            if (active && active.id === 'slide-1') {
+            const active = document.querySelector(".screen.active");
+            if (
+                active &&
+                (active.id === "slide-1" ||
+                    active.id === "slide-9-ro" ||
+                    active.id === "slide-9-ru")
+            ) {
                 clearTimeout(state.inactivityTimer);
                 return;
             }
-
             clearTimeout(state.inactivityTimer);
             state.inactivityTimer = setTimeout(() => location.reload(), 30000);
         }
@@ -770,16 +818,14 @@
         function startAutoReset(seconds = 8) {
             const el = document.getElementById(`countdown-${state.currentLang}`);
             let t = seconds;
-
             clearTimeout(state.autoResetTimer);
             clearInterval(state.countdownInterval);
-
+            if (el) el.textContent = t;
             state.countdownInterval = setInterval(() => {
                 t--;
                 if (el) el.textContent = t;
                 if (t <= 0) clearInterval(state.countdownInterval);
             }, 1000);
-
             state.autoResetTimer = setTimeout(() => location.reload(), seconds * 1000);
         }
 
@@ -789,15 +835,15 @@
         }
 
         function updateLanguageButtons() {
-            elements.btnRo.classList.toggle('active', state.currentLang === 'ro');
-            elements.btnRu.classList.toggle('active', state.currentLang === 'ru');
+            elements.btnRo.classList.toggle("active", state.currentLang === "ro");
+            elements.btnRu.classList.toggle("active", state.currentLang === "ru");
             if (elements.swipeHint) {
                 elements.swipeHint.textContent = swipeHintText[state.currentLang];
             }
         }
 
         function startQuiz() {
-            state.questionOrder = shuffleArray([1,2,3,4,5,6,7,8]);
+            state.questionOrder = shuffleArray([1, 2, 3, 4, 5, 6, 7, 8]);
             state.currentQuestionIndex = 0;
             showSlide(`q${state.questionOrder[0]}-${state.currentLang}`);
         }
@@ -809,12 +855,18 @@
                 showSlide(`q${n}-${state.currentLang}`);
             } else {
                 showSlide(`slide-9-${state.currentLang}`);
-                startAutoReset(8); // 8 secunde pe final
+                startAutoReset(8);
             }
         }
 
         function handleDenial() {
-            showSlide('slide-3');
+            if (elements.denialImage) {
+                elements.denialImage.src =
+                    state.currentLang === "ro"
+                        ? "butoane/iconiteRo.png"
+                        : "butoane/4.png";
+            }
+            showSlide("slide-3");
             setTimeout(() => location.reload(), 20000);
         }
 
@@ -828,55 +880,56 @@
         }
 
         function handleSwipe() {
-            const current = document.querySelector('.screen.active');
-            if (!current || current.id !== 'slide-1') return;
-
+            const current = document.querySelector(".screen.active");
+            if (!current || current.id !== "slide-1") return;
             const diff = state.touchStartX - state.touchEndX;
             if (Math.abs(diff) > 50) {
-                elements.langSwitcher.classList.add('hidden');
-                showSlide(state.currentLang === 'ro' ? 'slide-2-ro' : 'slide-2-ru');
+                elements.langSwitcher.classList.add("hidden");
+                showSlide(state.currentLang === "ro" ? "slide-2-ro" : "slide-2-ru");
             }
         }
 
-        elements.btnRo.addEventListener('click', () => {
-            state.currentLang = 'ro';
+        elements.btnRo.addEventListener("click", () => {
+            state.currentLang = "ro";
             updateLanguageButtons();
         });
 
-        elements.btnRu.addEventListener('click', () => {
-            state.currentLang = 'ru';
+        elements.btnRu.addEventListener("click", () => {
+            state.currentLang = "ru";
             updateLanguageButtons();
         });
 
-        elements.curiousTrigger.addEventListener('click', () => {
-            elements.langSwitcher.classList.add('hidden');
-            showSlide(state.currentLang === 'ro' ? 'slide-2-ro' : 'slide-2-ru');
+        elements.curiousTrigger.addEventListener("click", () => {
+            elements.langSwitcher.classList.add("hidden");
+            showSlide(state.currentLang === "ro" ? "slide-2-ro" : "slide-2-ru");
         });
 
-        document.querySelectorAll('.btn-confirm-age').forEach(btn => {
-            btn.addEventListener('click', startQuiz);
+        document.querySelectorAll(".btn-confirm-age").forEach(btn => {
+            btn.addEventListener("click", startQuiz);
         });
 
-        document.querySelectorAll('.btn-denial').forEach(btn => {
-            btn.addEventListener('click', handleDenial);
+        document.querySelectorAll(".btn-denial").forEach(btn => {
+            btn.addEventListener("click", handleDenial);
         });
 
-        document.querySelectorAll('.option-btn').forEach(btn => {
-            btn.addEventListener('click', goToNextQuestion);
+        document.querySelectorAll(".option-btn").forEach(btn => {
+            btn.addEventListener("click", goToNextQuestion);
         });
 
-        elements.replayRo.addEventListener('click', () => location.reload());
-        elements.replayRu.addEventListener('click', () => location.reload());
+        elements.replayRo.addEventListener("click", () => location.reload());
+        elements.replayRu.addEventListener("click", () => location.reload());
 
-        document.addEventListener('touchstart', handleTouchStart, { passive: true });
-        document.addEventListener('touchend', handleTouchEnd, { passive: true });
+        document.addEventListener("touchstart", handleTouchStart, { passive: true });
+        document.addEventListener("touchend", handleTouchEnd, { passive: true });
 
-        ['click','mousemove','keydown','touchstart'].forEach(event => {
+        ["click", "mousemove", "keydown", "touchstart"].forEach(event => {
             document.addEventListener(event, resetInactivityTimer);
         });
 
-        document.addEventListener('click', () => {
-            const finalScreen = document.querySelector('#slide-9-ro.active, #slide-9-ru.active');
+        document.addEventListener("click", () => {
+            const finalScreen = document.querySelector(
+                "#slide-9-ro.active, #slide-9-ru.active"
+            );
             if (finalScreen) cancelAutoReset();
         });
 
